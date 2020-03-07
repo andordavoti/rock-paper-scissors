@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rock, paper, scissors</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div id="container">
+        <h1>Rock, paper, scissors</h1>
+
+        <b id="output"></b>
+
+        <p>Your points: <span id="playerPoints">0</span> | Computer's points: <span id="machinePoints">0</span></p>
+
+        <button id="restartBtn">New game</button>
+
+        <div id="playersContiner">
+            <div id="playerContainer">
+                <p id="titlePlayer">Choose a move:</p>
+                <img class="imgPlayer" id="rock" src="assets/img/player_rock.png" alt="rock">
+                <img class="imgPlayer" id="scissors" src="assets/img/player_scissors.png" alt="scissors">
+                <img class="imgPlayer" id="paper" src="assets/img/player_paper.png" alt="paper">
+            </div>
+        </div>
+
+        <div id="machineContainer">
+            <p id="titleMachine">Computer:</p>
+            <img id="machineImg" src="assets/img/computer_unknown.png" alt="">
+        </div>
+    </div>
+    </div>
+
+    <script>
+        var machinePointsEl = document.getElementById("machinePoints");
+        var playerPointsEl = document.getElementById("playerPoints");
+        var outputEl = document.getElementById("output");
+
+        var rockImgEl = document.getElementById("rock")
+        var scissorsImgEl = document.getElementById("scissors")
+        var paperImgEl = document.getElementById("paper")
+        var machineImgEl = document.getElementById("machineImg");
+
+        var activeGame = true;
+        var restartBtn = document.getElementById("restartBtn")
+
+        var machinePoints = 0;
+        var playerPoints = 0;
+        var winnerPoint = 5;
+        var playerStatus;
+
+        outputEl.innerHTML = 'Choose rock, paper or scissors. First to reach ' + winnerPoint + ' points win.';
+
+        restartBtn.onclick = () => {
+            activeGame = true;
+            machinePoints = 0;
+            playerPoints = 0;
+            outputEl.innerHTML = "";
+            playerPointsEl.innerHTML = 0;
+            machinePointsEl.innerHTML = 0;
+            restartBtn.style.display = 'none';
+            outputEl.innerHTML = 'Choose rock, paper or scissors. First to reach ' + winnerPoint + ' points win.';
+            rockImgEl.style.cursor = 'pointer';
+            scissorsImgEl.style.cursor = 'pointer';
+            paperImgEl.style.cursor = 'pointer';
+        }
+
+        rockImgEl.onclick = checkResults;
+        scissorsImgEl.onclick = checkResults;
+        paperImgEl.onclick = checkResults;
+
+        function checkResults(evt) {
+            if (activeGame) {
+                var playersChoice = evt.target.id;
+                var machineChoice = machineResult();
+
+                setMachineImg(machineChoice);
+
+                var winner = whoWon(playersChoice, machineChoice);
+
+                if (winner === 'tied') {
+                    tied();
+                }
+
+                if (winner === 'player') {
+                    playerWon();
+                }
+
+                if (winner === 'machine') {
+                    machineWon();
+                }
+            }
+            else {
+                outputEl.innerHTML = "Game over, you " + playerStatus + ' the game.';
+            }
+        }
+
+        machineResult = () => {
+            let machineChoiceNum = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+            let machineChoice;
+            if (machineChoiceNum === 1) {
+                return 'rock';
+            }
+            if (machineChoiceNum === 2) {
+                return 'scissors';
+            }
+            if (machineChoiceNum === 3) {
+                return 'paper';
+            }
+        }
+
+        whoWon = (playersChoice, machineChoice) => {
+            if (playersChoice === machineChoice) {
+                return 'tied'
+            }
+            if (playersChoice === 'rock') {
+                if (machineChoice === 'scissors') {
+                    return 'player'
+                }
+                if (machineChoice === 'paper') {
+                    return 'machine'
+                }
+            }
+            if (playersChoice === 'scissors') {
+                if (machineChoice === 'paper') {
+                    return 'player'
+                }
+                if (machineChoice === 'rock') {
+                    return 'machine'
+                }
+            }
+            if (playersChoice === 'paper') {
+                if (machineChoice === 'rock') {
+                    return 'player'
+                }
+                if (machineChoice === 'scissors') {
+                    return 'machine'
+                }
+            }
+        }
+
+        tied = () => {
+            outputEl.innerHTML = 'Tied!'
+        }
+
+        playerWon = () => {
+            playerPoints++;
+            playerPointsEl.innerHTML = playerPoints;
+            outputEl.innerHTML = 'You won!'
+
+            if (playerPoints === winnerPoint) {
+                alert('You won the game!');
+                activeGame = false;
+                playerStatus = 'won';
+                outputEl.innerHTML = "Game over, you " + playerStatus + ' the game.';
+                restartBtn.style.display = "block";
+                rockImgEl.style.cursor = 'not-allowed';
+                scissorsImgEl.style.cursor = 'not-allowed';
+                paperImgEl.style.cursor = 'not-allowed';
+            }
+        }
+
+        machineWon = () => {
+            machinePoints++;
+            machinePointsEl.innerHTML = machinePoints;
+            outputEl.innerHTML = 'You lost!'
+
+            if (machinePoints === winnerPoint) {
+                alert('You lost the game!');
+                activeGame = false;
+                playerStatus = 'lost';
+                outputEl.innerHTML = "Game over, you " + playerStatus + ' the game.';
+                restartBtn.style.display = "block";
+                rockImgEl.style.cursor = 'not-allowed';
+                scissorsImgEl.style.cursor = 'not-allowed';
+                paperImgEl.style.cursor = 'not-allowed';
+            }
+        }
+
+        setMachineImg = (choice) => {
+            if (choice === 'rock') {
+                machineImgEl.src = 'assets/img/computer_rock.png';
+                setTimeout(function () { machineImgEl.src = 'assets/img/computer_unknown.png' }, 1200);
+            }
+            if (choice === 'scissors') {
+                machineImgEl.src = 'assets/img/computer_scissors.png';
+                setTimeout(function () { machineImgEl.src = 'assets/img/computer_unknown.png' }, 1200);
+            }
+            if (choice === 'paper') {
+                machineImgEl.src = 'assets/img/computer_paper.png';
+                setTimeout(function () { machineImgEl.src = 'assets/img/computer_unknown.png' }, 1200);
+            }
+        }
+    </script>
+</body>
+
+</html>
