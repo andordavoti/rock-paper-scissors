@@ -33,25 +33,23 @@
             <img id="machineImg" src="assets/img/computer_unknown.png" alt="">
         </div>
     </div>
-    </div>
+    </!DOCTYPE>
 
     <script>
-        var machinePointsEl = document.getElementById("machinePoints");
-        var playerPointsEl = document.getElementById("playerPoints");
-        var outputEl = document.getElementById("output");
+        const machinePointsEl = document.getElementById("machinePoints"),
+            playerPointsEl = document.getElementById("playerPoints"),
+            outputEl = document.getElementById("output"),
+            rockImgEl = document.getElementById("rock"),
+            scissorsImgEl = document.getElementById("scissors"),
+            paperImgEl = document.getElementById("paper"),
+            machineImgEl = document.getElementById("machineImg"),
+            restartBtn = document.getElementById("restartBtn"),
+            winnerPoint = 5;
 
-        var rockImgEl = document.getElementById("rock")
-        var scissorsImgEl = document.getElementById("scissors")
-        var paperImgEl = document.getElementById("paper")
-        var machineImgEl = document.getElementById("machineImg");
-
-        var activeGame = true;
-        var restartBtn = document.getElementById("restartBtn")
-
-        var machinePoints = 0;
-        var playerPoints = 0;
-        var winnerPoint = 5;
-        var playerStatus;
+        let activeGame = true,
+            machinePoints = 0,
+            playerPoints = 0,
+            playerStatus = '';
 
         outputEl.innerHTML = 'Choose rock, paper or scissors. First to reach ' + winnerPoint + ' points win.';
 
@@ -75,12 +73,12 @@
 
         function checkResults(evt) {
             if (activeGame) {
-                var playersChoice = evt.target.id;
-                var machineChoice = machineResult();
+                const playersChoice = evt.target.id;
+                const machineChoice = machineResult();
 
                 setMachineImg(machineChoice);
 
-                var winner = whoWon(playersChoice, machineChoice);
+                const winner = whoWon(playersChoice, machineChoice);
 
                 if (winner === 'tied') {
                     tied();
@@ -100,8 +98,7 @@
         }
 
         machineResult = () => {
-            let machineChoiceNum = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-            let machineChoice;
+            const machineChoiceNum = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
             if (machineChoiceNum === 1) {
                 return 'rock';
             }
