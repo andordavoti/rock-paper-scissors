@@ -67,11 +67,7 @@
             paperImgEl.style.cursor = 'pointer';
         }
 
-        rockImgEl.onclick = checkResults;
-        scissorsImgEl.onclick = checkResults;
-        paperImgEl.onclick = checkResults;
-
-        function checkResults(evt) {
+        const checkResults = (evt) => {
             if (activeGame) {
                 const playersChoice = evt.target.id;
                 const machineChoice = machineResult();
@@ -97,7 +93,7 @@
             }
         }
 
-        machineResult = () => {
+        const machineResult = () => {
             const machineChoiceNum = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
             if (machineChoiceNum === 1) {
                 return 'rock';
@@ -110,7 +106,7 @@
             }
         }
 
-        whoWon = (playersChoice, machineChoice) => {
+        const whoWon = (playersChoice, machineChoice) => {
             if (playersChoice === machineChoice) {
                 return 'tied'
             }
@@ -140,11 +136,11 @@
             }
         }
 
-        tied = () => {
+        const tied = () => {
             outputEl.innerHTML = 'Tied!'
         }
 
-        playerWon = () => {
+        const playerWon = () => {
             playerPoints++;
             playerPointsEl.innerHTML = playerPoints;
             outputEl.innerHTML = 'You won!'
@@ -161,7 +157,7 @@
             }
         }
 
-        machineWon = () => {
+        const machineWon = () => {
             machinePoints++;
             machinePointsEl.innerHTML = machinePoints;
             outputEl.innerHTML = 'You lost!'
@@ -178,7 +174,7 @@
             }
         }
 
-        setMachineImg = (choice) => {
+        const setMachineImg = (choice) => {
             if (choice === 'rock') {
                 machineImgEl.src = 'assets/img/computer_rock.png';
                 setTimeout(function () { machineImgEl.src = 'assets/img/computer_unknown.png' }, 1200);
@@ -192,6 +188,10 @@
                 setTimeout(function () { machineImgEl.src = 'assets/img/computer_unknown.png' }, 1200);
             }
         }
+
+        rockImgEl.onclick = checkResults;
+        scissorsImgEl.onclick = checkResults;
+        paperImgEl.onclick = checkResults;
     </script>
 </body>
 
